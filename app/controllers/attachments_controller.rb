@@ -323,7 +323,11 @@ class AttachmentsController < ApplicationController
   end
 
   def send_file(path, options={})
-    headers['content-security-policy'] = "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+    if options[:type] == 'application/pdf'
+      headers['content-security-policy'] = "default-src 'none'; style-src 'unsafe-inline'"
+    else
+      headers['content-security-policy'] = "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+    end
     super
   end
 end
